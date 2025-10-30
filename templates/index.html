@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calculadora de Lucro CS</title>
+    <!-- O Flask vai procurar este arquivo na pasta 'static' -->
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
@@ -14,24 +15,25 @@
 
         <form method="POST">
             <label for="custo_buff">Qual o preço da skin no Buff?</label>
-            <input type="number" step="0.01" id="custo_buff" name="custo_buff" placeholder="Preço do Buff aqui" required>
+            <input type.text inputmode="decimal" id="custo_buff" name="custo_buff" placeholder="Ex: 550.25" required>
 
             <label for="preco_steam">Preço de Venda na Steam </label>
-            <input type="number" step="0.01" id="preco_steam" name="preco_steam" placeholder="Preço da Steam aqui" required>
+            <input type.text inputmode="decimal" id="preco_steam" name="preco_steam" placeholder="Ex: 800.00" required>
 
             <label for="preco_csfloat">Preço de Venda no CS Float</label>
-            <input type="number" step="0.01" id="preco_csfloat" name="preco_csfloat" placeholder="Preço do Cs Float aqui" required>
+            <input type.text inputmode="decimal" id="preco_csfloat" name="preco_csfloat" placeholder="Ex: 750.50" required>
 
             <button type="submit">Calcular Lucro</button>
         </form>
 
+        <!-- Esta seção só aparece se o cálculo der certo -->
         {% if lucro_steam is defined %}
             <div class="results">
                 <h2>Resultados:</h2>
 
                 <div class="result-item">
                     <h3>Lucro na Steam</h3>
-                    <p>(Considerando taxa de 15%)</p>
+                    <p>(Taxa de 15% + Custo Buff)</p>
                     <span class="{{ 'profit' if lucro_steam > 0 else 'loss' }}">
                         R$ {{ "%.2f"|format(lucro_steam) }}
                     </span>
@@ -39,7 +41,7 @@
 
                 <div class="result-item">
                     <h3>Lucro no CS Float</h3>
-                    <p>(Considerando taxa de 2%)</p>
+                    <p>(Taxa de 2% + Custo Buff)</p>
                     <span class="{{ 'profit' if lucro_csfloat > 0 else 'loss' }}">
                         R$ {{ "%.2f"|format(lucro_csfloat) }}
                     </span>
@@ -47,13 +49,14 @@
             </div>
         {% endif %}
 
+        <!-- Esta seção só aparece se der erro -->
         {% if erro %}
             <div class="error">
                 <p>{{ erro }}</p>
             </div>
         {% endif %}
 
-
+        <!-- Links externos -->
         <div class="market-buttons">
             <a href="https://csfloat.com/search" target="_blank" class="market-btn csfloat-btn">
                 Pesquisar no CS Float
@@ -66,3 +69,4 @@
 
 </body>
 </html>
+
